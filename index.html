@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Verification - Please Wait</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --bg-gradient: linear-gradient(135deg, #eef2f7 0%, #f8fafc 100%);
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --success: #10b981;
+            --error: #ef4444;
+            --btn-disabled: #8d9eb6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+
+        html { min-height: 100%; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 12px;
+            gap: 16px;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Banner ad band */
+        .ad-banner {
+            width: 100%;
+            max-width: 728px;
+            height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .ad-banner {
+                height: 45px;
+            }
+        }
+
+        .adsterra-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            width: 728px;
+            height: 90px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media (max-width: 768px) {
+            .adsterra-overlay {
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+        }
+
+        @media (max-width: 400px) {
+            .adsterra-overlay {
+                transform: translate(-50%, -50%) scale(0.42);
+            }
+        }
+
+
+        .container {
+            text-align: center;
+            padding: 40px 32px;
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 32px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.04),
+                0 4px 12px rgba(0, 0, 0, 0.02);
+            max-width: 390px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            flex-shrink: 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon-box {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 16px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-main);
+        }
+
+        .loader-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 24px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .countdown-number {
+            font-size: 60px;
+            font-weight: 400;
+            color: var(--text-main);
+            z-index: 2;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1.5px dashed #cbd5e1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .ring-1 {
+            width: 144px;
+            height: 144px;
+            animation: pulse-ring 3s infinite ease-in-out;
+        }
+        .ring-2 {
+            width: 114px;
+            height: 114px;
+            animation: pulse-ring 3s infinite ease-in-out 0.4s;
+        }
+        .ring-3 {
+            width: 84px;
+            height: 84px;
+            animation: pulse-ring 3s infinite ease-in-out 0.8s;
+        }
+        
+        @keyframes pulse-ring {
+            0%, 100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.8;
+                border-color: #cbd5e1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.04);
+                opacity: 1;
+                border-color: #94a3b8;
+            }
+        }
+
+        .verify-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 20px;
+            background-color: var(--btn-disabled);
+            color: white;
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.05em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            cursor: not-allowed;
+            position: relative;
+            overflow: hidden;
+            font-family: inherit;
+            text-transform: uppercase;
+        }
+        
+        .verify-btn::after {
+            content: "";
+            position: absolute;
+            top: 0; left: -120%;
+            width: 60%; height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.25), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.7s ease;
+        }
+        .verify-btn:not(:disabled)::after { left: 130%; }
+        .verify-btn:not(:disabled) {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+        }
+        .verify-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 28px rgba(37, 99, 235, 0.3);
+            background: linear-gradient(135deg, #2563eb, #1e40af);
+        }
+        .verify-btn:not(:disabled):active { transform: translateY(0); }
+
+        .status-text {
+            font-size: 14px;
+            color: var(--success);
+            margin-top: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            min-height: 22px;
+        }
+
+        .footer-text {
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+        .footer-text span {
+            color: #475569;
+            font-weight: 600;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(120px);
+            opacity: 0;
+            visibility: hidden;
+            background: rgba(30, 41, 59, 0.95);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 12px 24px;
+            border-radius: 100px;
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease, visibility 0.2s;
+            z-index: 1000;
+            pointer-events: none;
+            max-width: calc(100vw - 32px);
+            text-align: center;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 12px 8px; }
+            .container { padding: 32px 20px; border-radius: 28px; }
+            h1 { font-size: 21px; }
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+    <!-- Header Banner Ad -->
+    <div class="ad-banner">
+        <div class="adsterra-overlay">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '8ff95fe75595feecd4f06d9076f2431a',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/8ff95fe75595feecd4f06d9076f2431a/invoke.js"></script>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="icon-box">🗃️</div>
+        <h1 id="mainTitle">File is Almost Ready</h1>
+
+        <div class="loader-container" id="loaderContainer">
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="countdown-number" id="countdown">5</div>
+        </div>
+
+        <button class="verify-btn" id="verifyBtn" disabled>
+            <span>Please Wait...</span>
+        </button>
+        <p class="status-text" id="statusText">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            Scanning Verification...
+        </p>
+
+        <div class="footer-text">
+            Powered By <span>@Sujan_BotZ</span>
+        </div>
+    </div>
+
+    <!-- Footer Banner Ad -->
+    <div class="ad-banner">
+        <div class="adsterra-overlay">
+            <script type="text/javascript">
+                atOptions = {
+                    'key' : '8ff95fe75595feecd4f06d9076f2431a',
+                    'format' : 'iframe',
+                    'height' : 90,
+                    'width' : 728,
+                    'params' : {}
+                };
+            </script>
+            <script type="text/javascript" src="//www.highperformanceformat.com/8ff95fe75595feecd4f06d9076f2431a/invoke.js"></script>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Link Copied to Clipboard!</div>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const encodedToken = urlParams.get('token');
+        const countdownEl = document.getElementById('countdown');
+        const verifyBtn = document.getElementById('verifyBtn');
+        const statusText = document.getElementById('statusText');
+        const mainTitle = document.getElementById('mainTitle');
+        const toast = document.getElementById('toast');
+
+        function showToast(message) {
+            toast.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        async function copyLink(link) {
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(link);
+                    return true;
+                }
+            } catch (err) {
+                console.warn('Clipboard API failed, trying fallback: ', err);
+            }
+            
+            try {
+                const textArea = document.createElement("textarea");
+                textArea.value = link;
+                textArea.style.top = "0";
+                textArea.style.left = "0";
+                textArea.style.position = "fixed";
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                const successful = document.execCommand('copy');
+                document.body.removeChild(textArea);
+                return successful;
+            } catch (err) {
+                console.error('Fallback copy failed: ', err);
+                return false;
+            }
+        }
+
+        let verifyLink = null;
+        let isLinkValid = false;
+        if (encodedToken) {
+            try {
+                verifyLink = atob(encodedToken.replace(/-/g, '+').replace(/_/g, '/'));
+                if (verifyLink && (verifyLink.startsWith('http://') || verifyLink.startsWith('https://') || verifyLink.startsWith('t.me/'))) {
+                    isLinkValid = true;
+                }
+            } catch (e) {
+                console.error('Invalid token or decoding error', e);
+            }
+        }
+
+        const fallbackLink = "https://t.me/Sujan_BotZ";
+        const finalLink = isLinkValid ? verifyLink : fallbackLink;
+
+        if (!isLinkValid) {
+            console.warn("Valid link token missing or corrupt. Fallback link will be used.");
+        }
+
+        // Robust epoch-time based countdown timer
+        const countdownDuration = 5000; // 5 seconds
+        const startTime = Date.now();
+        const targetTime = startTime + countdownDuration;
+
+        function updateTimer() {
+            const now = Date.now();
+            const remainingMs = targetTime - now;
+            const timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
+            
+            countdownEl.innerText = timeLeft;
+
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                verifyBtn.disabled = false;
+                verifyBtn.innerHTML = '<span>Get File</span> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>';
+                statusText.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> File Ready!';
+            }
+        }
+
+        const timerInterval = setInterval(updateTimer, 100);
+        updateTimer(); // run once immediately
+
+        verifyBtn.addEventListener('click', async function() {
+            const copied = await copyLink(finalLink);
+            if (copied) {
+                showToast('✅ Link Copied! Redirecting...');
+            }
+            setTimeout(() => {
+                if (window.Telegram && window.Telegram.WebApp && finalLink.includes('t.me/')) {
+                    window.Telegram.WebApp.openTelegramLink(finalLink);
+                } else {
+                    window.location.href = finalLink;
+                }
+                statusText.innerHTML = 'Redirecting...';
+                setTimeout(() => {
+                    if (window.Telegram && window.Telegram.WebApp) {
+                        window.Telegram.WebApp.close();
+                    }
+                }, 2000);
+            }, 800);
+        });
+
+        if (window.Telegram && window.Telegram.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
+    </script>
+</body>
+</html>
