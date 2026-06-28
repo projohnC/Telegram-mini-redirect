@@ -348,6 +348,7 @@
 
         const startVerificationCountdown = () => {
             let seconds = 10;
+            verifyBtn.innerText = `Please Wait 10s`;
             const interval = setInterval(() => {
                 seconds--;
                 verifyBtn.innerText = `Please Wait ${seconds}s`;
@@ -359,17 +360,24 @@
             }, 1000);
         };
 
-        verifyBtn.addEventListener('click', async function() {
+        verifyBtn.addEventListener('click', function() {
             verifyBtn.disabled = true;
             verifyBtn.innerText = 'Loading Ad...';
             statusText.innerText = 'Preparing...';
             
-            try {
-                await show_9913319('pop');
-            } catch (e) {
-                console.error("Ad error:", e);
+            // Monetag rewarded/interstitial flow as provided
+            if (typeof show_9913319 === 'function') {
+                show_9913319().then(() => {
+                    // Ad completed
+                    startVerificationCountdown();
+                }).catch(e => {
+                    // Error or skip - proceed to verify anyway
+                    startVerificationCountdown();
+                });
+            } else {
+                // Fallback if SDK is missing
+                startVerificationCountdown();
             }
-            startVerificationCountdown();
         });
 
         const countdownDuration = 5000;
