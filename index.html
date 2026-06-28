@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Make sure you have included the ad network's script file that provides the show_9913319 function somewhere in your head or body tags -->
+    <!-- Ad SDK -->
+    <script src='//libtl.com/sdk.js' data-zone='9913319' data-sdk='show_9913319'></script>
 
     <style>
         :root {
@@ -41,7 +42,6 @@
             overflow-x: hidden;
         }
 
-        /* Banner ad band */
         .ad-banner {
             width: 100%;
             max-width: 728px;
@@ -83,7 +83,6 @@
                 transform: translate(-50%, -50%) scale(0.42);
             }
         }
-
 
         .container {
             text-align: center;
@@ -270,26 +269,13 @@
             opacity: 1;
             visibility: visible;
         }
-
-        @media (max-width: 480px) {
-            body { padding: 12px 8px; }
-            .container { padding: 32px 20px; border-radius: 28px; }
-            h1 { font-size: 21px; }
-        }
     </style>
 </head>
 <body oncontextmenu="return false;">
-    <!-- Header Banner Ad -->
     <div class="ad-banner">
         <div class="adsterra-overlay">
             <script type="text/javascript">
-                atOptions = {
-                    'key' : '8ff95fe75595feecd4f06d9076f2431a',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                };
+                atOptions = {'key' : '8ff95fe75595feecd4f06d9076f2431a', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {}};
             </script>
             <script type="text/javascript" src="//www.highperformanceformat.com/8ff95fe75595feecd4f06d9076f2431a/invoke.js"></script>
         </div>
@@ -298,38 +284,21 @@
     <div class="container">
         <div class="icon-box">🗃️</div>
         <h1 id="mainTitle">File is Almost Ready</h1>
-
         <div class="loader-container" id="loaderContainer">
             <div class="ring ring-1"></div>
             <div class="ring ring-2"></div>
             <div class="ring ring-3"></div>
             <div class="countdown-number" id="countdown">5</div>
         </div>
-
-        <button class="verify-btn" id="verifyBtn" disabled>
-            <span>Please Wait...</span>
-        </button>
-        <p class="status-text" id="statusText">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-            Scanning Verification...
-        </p>
-
-        <div class="footer-text">
-            Powered By <span>@Sujan_BotZ</span>
-        </div>
+        <button class="verify-btn" id="verifyBtn" disabled><span>Please Wait...</span></button>
+        <p class="status-text" id="statusText">Scanning Verification...</p>
+        <div class="footer-text">Powered By <span>@Sujan_BotZ</span></div>
     </div>
 
-    <!-- Footer Banner Ad -->
     <div class="ad-banner">
         <div class="adsterra-overlay">
             <script type="text/javascript">
-                atOptions = {
-                    'key' : '8ff95fe75595feecd4f06d9076f2431a',
-                    'format' : 'iframe',
-                    'height' : 90,
-                    'width' : 728,
-                    'params' : {}
-                };
+                atOptions = {'key' : '8ff95fe75595feecd4f06d9076f2431a', 'format' : 'iframe', 'height' : 90, 'width' : 728, 'params' : {}};
             </script>
             <script type="text/javascript" src="//www.highperformanceformat.com/8ff95fe75595feecd4f06d9076f2431a/invoke.js"></script>
         </div>
@@ -343,7 +312,6 @@
         const countdownEl = document.getElementById('countdown');
         const verifyBtn = document.getElementById('verifyBtn');
         const statusText = document.getElementById('statusText');
-        const mainTitle = document.getElementById('mainTitle');
         const toast = document.getElementById('toast');
 
         function showToast(message) {
@@ -353,31 +321,8 @@
         }
 
         async function copyLink(link) {
-            try {
-                if (navigator.clipboard && window.isSecureContext) {
-                    await navigator.clipboard.writeText(link);
-                    return true;
-                }
-            } catch (err) {
-                console.warn('Clipboard API failed, trying fallback: ', err);
-            }
-            
-            try {
-                const textArea = document.createElement("textarea");
-                textArea.value = link;
-                textArea.style.top = "0";
-                textArea.style.left = "0";
-                textArea.style.position = "fixed";
-                document.body.appendChild(textArea);
-                textArea.focus();
-                textArea.select();
-                const successful = document.execCommand('copy');
-                document.body.removeChild(textArea);
-                return successful;
-            } catch (err) {
-                console.error('Fallback copy failed: ', err);
-                return false;
-            }
+            try { if (navigator.clipboard && window.isSecureContext) { await navigator.clipboard.writeText(link); return true; } } catch (err) {}
+            return false;
         }
 
         let verifyLink = null;
@@ -385,83 +330,60 @@
         if (encodedToken) {
             try {
                 verifyLink = atob(encodedToken.replace(/-/g, '+').replace(/_/g, '/'));
-                if (verifyLink && (verifyLink.startsWith('http://') || verifyLink.startsWith('https://') || verifyLink.startsWith('t.me/'))) {
-                    isLinkValid = true;
-                }
-            } catch (e) {
-                console.error('Invalid token or decoding error', e);
-            }
+                if (verifyLink && (verifyLink.startsWith('http://') || verifyLink.startsWith('https://') || verifyLink.startsWith('t.me/'))) isLinkValid = true;
+            } catch (e) {}
         }
+        const finalLink = isLinkValid ? verifyLink : "https://t.me/Sujan_BotZ";
 
-        const fallbackLink = "https://t.me/Sujan_BotZ";
-        const finalLink = isLinkValid ? verifyLink : fallbackLink;
-
-        if (!isLinkValid) {
-            console.warn("Valid link token missing or corrupt. Fallback link will be used.");
-        }
-
-        // Robust epoch-time based countdown timer
-        const countdownDuration = 5000; // 5 seconds
-        const startTime = Date.now();
-        const targetTime = startTime + countdownDuration;
-
-        function updateTimer() {
-            const now = Date.now();
-            const remainingMs = targetTime - now;
-            const timeLeft = Math.max(0, Math.ceil(remainingMs / 1000));
-            
-            countdownEl.innerText = timeLeft;
-
-            if (timeLeft <= 0) {
-                clearInterval(timerInterval);
-                verifyBtn.disabled = false;
-                verifyBtn.innerHTML = '<span>Get File</span> <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>';
-                statusText.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> File Ready!';
-            }
-        }
-
-        const timerInterval = setInterval(updateTimer, 100);
-        updateTimer(); // run once immediately
-
-        // Extracted redirect logic to be called after ad completes or fails
         const executeRedirect = async () => {
             const copied = await copyLink(finalLink);
-            if (copied) {
-                showToast('✅ Link Copied! Redirecting...');
-            }
+            if (copied) showToast('✅ Link Copied! Redirecting...');
             setTimeout(() => {
-                if (window.Telegram && window.Telegram.WebApp && finalLink.includes('t.me/')) {
-                    window.Telegram.WebApp.openTelegramLink(finalLink);
-                } else {
-                    window.location.href = finalLink;
-                }
-                statusText.innerHTML = 'Redirecting...';
-                setTimeout(() => {
-                    if (window.Telegram && window.Telegram.WebApp) {
-                        window.Telegram.WebApp.close();
-                    }
-                }, 2000);
+                if (window.Telegram && window.Telegram.WebApp && finalLink.includes('t.me/')) window.Telegram.WebApp.openTelegramLink(finalLink);
+                else window.location.href = finalLink;
+                statusText.innerText = 'Redirecting...';
+                setTimeout(() => { if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.close(); }, 2000);
             }, 800);
         };
 
-        // Modified button listener to show Adsterra Rewarded ad first
-        verifyBtn.addEventListener('click', function() {
-            // Check if the ad function exists in the window
-            if (typeof show_9913319 === 'function') {
-                show_9913319('pop').then(() => {
-                    // user watch ad till the end or close it in interstitial format
+        const startVerificationCountdown = () => {
+            let seconds = 10;
+            const interval = setInterval(() => {
+                seconds--;
+                verifyBtn.innerText = `Please Wait ${seconds}s`;
+                statusText.innerText = `Verifying... ${seconds}s`;
+                if (seconds <= 0) {
+                    clearInterval(interval);
                     executeRedirect();
-                }).catch(e => {
-                    // user get error during playing ad
-                    console.error("Ad failed or skipped:", e);
-                    executeRedirect(); // still redirect them so they don't get stuck
-                });
-            } else {
-                // Fallback in case the ad network script fails to load entirely
-                console.warn("Ad script not found. Proceeding directly.");
-                executeRedirect();
+                }
+            }, 1000);
+        };
+
+        verifyBtn.addEventListener('click', async function() {
+            verifyBtn.disabled = true;
+            verifyBtn.innerText = 'Loading Ad...';
+            statusText.innerText = 'Preparing...';
+            
+            try {
+                await show_9913319('pop');
+            } catch (e) {
+                console.error("Ad error:", e);
             }
+            startVerificationCountdown();
         });
+
+        const countdownDuration = 5000;
+        const targetTime = Date.now() + countdownDuration;
+        const timerInterval = setInterval(() => {
+            const timeLeft = Math.max(0, Math.ceil((targetTime - Date.now()) / 1000));
+            countdownEl.innerText = timeLeft;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                verifyBtn.disabled = false;
+                verifyBtn.innerText = 'Get File';
+                statusText.innerText = 'File Ready!';
+            }
+        }, 100);
 
         if (window.Telegram && window.Telegram.WebApp) {
             window.Telegram.WebApp.ready();
