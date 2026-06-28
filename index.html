@@ -8,6 +8,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Make sure you have included the ad network's script file that provides the show_9913319 function somewhere in your head or body tags -->
+
     <style>
         :root {
             --primary: #3b82f6;
@@ -420,7 +423,8 @@
         const timerInterval = setInterval(updateTimer, 100);
         updateTimer(); // run once immediately
 
-        verifyBtn.addEventListener('click', async function() {
+        // Extracted redirect logic to be called after ad completes or fails
+        const executeRedirect = async () => {
             const copied = await copyLink(finalLink);
             if (copied) {
                 showToast('✅ Link Copied! Redirecting...');
@@ -438,6 +442,25 @@
                     }
                 }, 2000);
             }, 800);
+        };
+
+        // Modified button listener to show Adsterra Rewarded ad first
+        verifyBtn.addEventListener('click', function() {
+            // Check if the ad function exists in the window
+            if (typeof show_9913319 === 'function') {
+                show_9913319('pop').then(() => {
+                    // user watch ad till the end or close it in interstitial format
+                    executeRedirect();
+                }).catch(e => {
+                    // user get error during playing ad
+                    console.error("Ad failed or skipped:", e);
+                    executeRedirect(); // still redirect them so they don't get stuck
+                });
+            } else {
+                // Fallback in case the ad network script fails to load entirely
+                console.warn("Ad script not found. Proceeding directly.");
+                executeRedirect();
+            }
         });
 
         if (window.Telegram && window.Telegram.WebApp) {
